@@ -6,10 +6,15 @@ class Level():
     self.image_maps = resources.load_all_image_maps()
     self.__load_level()
 
+<<<<<<< Updated upstream
   def __load_level(self, level = 0):
     index = str(level)
     self.current_level = self.json_maps[index]
     self.current_background = self.image_maps[index]
+=======
+  def __load_level(self, level = 3):
+    self.current_level = self.json_maps[str(level)]
+>>>>>>> Stashed changes
 
   def __restart_level(self):
     pass
