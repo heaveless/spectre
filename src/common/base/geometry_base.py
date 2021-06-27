@@ -6,7 +6,7 @@ class GeometryBase:
     self.y = y
     self.width = width
     self.height = height
-    self.location = Vector2(self.x. self.y)
+    self.location = Vector2(self.x, self.y)
     self.bounds = Rect(self.x, self.y, self.width, self.height)
 
   def set_height(self, height):
