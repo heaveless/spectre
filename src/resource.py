@@ -2,7 +2,6 @@ import os
 import pygame as pg
 from .utils.folders_util import Folder
 
-
 class Resource:
   def __init__(self, path):
     self.path = path
@@ -42,7 +41,6 @@ class Resource:
 
   def __load_all_sprites(self, directory, accept=('.png', '.jpg')):
     return self.load_all_levels(directory, accept)
-
 
   def get_levels(self):
     return self.__load_all_levels(os.path.join(self.path, Folder.LEVELS))
