@@ -1,10 +1,32 @@
 import os
+import json
 import pygame as pg
 from .utils.folders_util import Folder
 
 class Resource:
   def __init__(self, path):
     self.path = path
+
+  def load_all_json_maps(self, accept=('.json')):
+    jsons = {}
+
+    directory = os.path.join(self.path, Folder.LEVELS)
+    for map in os.listdir(directory):
+      name, ext = os.path.splitext(map)
+      if ext.lower() in accept:
+        data = open(os.path.join(directory, map))
+        jsons[name] = json.load(data)
+    return jsons
+
+  def load_all_image_maps(self, accept=('.png', '.jpg', '.jpeg')):
+    maps = {}
+
+    directory = os.path.join(self.path, Folder.LEVELS)
+    for map in os.listdir(directory):
+      name, ext = os.path.splitext(map)
+      if ext.lower() in accept:
+        maps[name] = os.path.join(directory, map)
+    return maps
 
   def __load_all_levels(self, directory, colorkey=(255,0,255), accept=('.png', '.jpg')):
       graphics = {}
@@ -45,6 +67,9 @@ class Resource:
   def get_levels(self):
     return self.__load_all_levels(os.path.join(self.path, Folder.LEVELS))
 
+  def get_map_levels(self):
+    return {}
+
   def get_music(self):
     return self.__load_all_music(os.path.join(self.path, Folder.MUSIC))
 
@@ -56,3 +81,14 @@ class Resource:
     
   def get_sprites(self):
     return self.__load_all_sprites(os.path.join(self.path, Folder.SPRITES))
+
+  def get_all(self):
+    return {}
+    # return {
+    #   "levels": self.get_levels(),
+    #   "map_levels": self.get_map_levels(),
+    #   "music": self.get_music(),
+    #   "sounds": self.get_sounds(),
+    #   "fonts": self.get_fonts(),
+    #   "sprites": self.get_sprites()
+    # }

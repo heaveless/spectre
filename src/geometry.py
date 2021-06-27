@@ -1,5 +1,5 @@
-from .utils.colors import Color
-from .base import GeometryBase
+from .utils.colors_util import Color
+from .common.base.geometry_base import GeometryBase
 
 class Shape(GeometryBase):
   def __init__(self, x, y, width, height, color):

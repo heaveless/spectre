@@ -1,4 +1,7 @@
 import pygame
+import os
+from .resource import Resource
+from .scenes_manager import SceneManager
 from .common.enums.game_state import GameState
 
 
@@ -9,8 +12,11 @@ class Game:
 
     self.state = GameState.RUNNING
     self.clock = pygame.time.Clock()
-    self.ticks = 0
 
+    root_dir = os.path.dirname(os.path.abspath(__file__))
+    print(root_dir + "/../assets")
+    resources = Resource("../assets")
+    # self.scene_manger = SceneManager(resources)
 
   def __initialize_pygame(self):
     pygame.mixer.init()
@@ -18,7 +24,7 @@ class Game:
 
   def __setup_window(self, title, width, height):
     pygame.display.set_caption(title)
-    pygame.display.set_mode((width, height))
+    self.window = pygame.display.set_mode((width, height))
 
   def quit_game(self):
     self.state = GameState.QUIT
@@ -35,13 +41,15 @@ class Game:
       print("terminar todo")
     else: 
       print("se resetea")
+      self.scene_manger.draw(self.window)
 
     pygame.display.update()
 
 
   def run(self):
-    while self.state != GameState.QUIT:
-      self.__update()
-      self.__draw()
+    pass
+    # while self.state != GameState.QUIT:
+    #   self.__update()
+    #   self.__draw()
 
-    pygame.quit()
+    # pygame.quit()
