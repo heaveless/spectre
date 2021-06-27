@@ -11,10 +11,10 @@ class Resource:
     jsons = {}
 
     directory = os.path.join(self.path, Folder.LEVELS)
-    for map in os.listdir(directory):
-      name, ext = os.path.splitext(map)
+    for file in os.listdir(directory):
+      name, ext = os.path.splitext(file)
       if ext.lower() in accept:
-        data = open(os.path.join(directory, map))
+        data = open(os.path.join(directory, file))
         jsons[name] = json.load(data)
     return jsons
 

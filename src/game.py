@@ -14,9 +14,8 @@ class Game:
     self.clock = pygame.time.Clock()
 
     root_dir = os.path.dirname(os.path.abspath(__file__))
-    print(root_dir + "/../assets")
-    resources = Resource("../assets")
-    # self.scene_manger = SceneManager(resources)
+    resources = Resource(os.path.join(root_dir, "assets"))
+    self.scene_manger = SceneManager(resources)
 
   def __initialize_pygame(self):
     pygame.mixer.init()
@@ -47,9 +46,8 @@ class Game:
 
 
   def run(self):
-    pass
     # while self.state != GameState.QUIT:
-    #   self.__update()
-    #   self.__draw()
+    self.__update()
+    self.__draw()
 
     # pygame.quit()
