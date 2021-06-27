@@ -6,7 +6,7 @@ class Level():
     self.__load_level()
 
   def __load_level(self, level = 0):
-    self.current_level = self.json_maps[level]
+    self.current_level = self.json_maps[str(level)]
 
   def __restart_level(self):
     pass

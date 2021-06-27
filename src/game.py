@@ -46,8 +46,8 @@ class Game:
 
 
   def run(self):
-    # while self.state != GameState.QUIT:
-    self.__update()
-    self.__draw()
+    while self.state != GameState.QUIT:
+      self.__update()
+      self.__draw()
 
-    # pygame.quit()
+    pygame.quit()
