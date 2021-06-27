@@ -19,14 +19,31 @@ class Resource:
     return jsons
 
   def load_all_image_maps(self, accept=('.png', '.jpg', '.jpeg')):
-    maps = {}
-
+    images = {}
+    
     directory = os.path.join(self.path, Folder.LEVELS)
-    for map in os.listdir(directory):
-      name, ext = os.path.splitext(map)
+    for pic in os.listdir(directory):
+      name, ext = os.path.splitext(pic)
       if ext.lower() in accept:
-        maps[name] = os.path.join(directory, map)
-    return maps
+        img = pg.image.load(os.path.join(directory, pic))
+        if img.get_alpha():
+          img = img.convert_alpha()
+        else:
+          img = img.convert()
+          images[name]=img
+    return images
+
+
+
+
+
+
+
+
+
+
+
+
 
   def __load_all_levels(self, directory, colorkey=(255,0,255), accept=('.png', '.jpg')):
       graphics = {}
