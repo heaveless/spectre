@@ -51,8 +51,6 @@ class Game:
           self.player.RIGHT_KEY, self.player.FACING_RIGHT = True, True
         elif event.key ==pygame.K_a:
           self.player.LEFT_KEY, self.player.FACING_RIGHT = True, False
-        elif event.key == pygame.K_w:
-                self.player.jump()
       if event.type ==  pygame.KEYUP:
         if event.key == pygame.K_d:
           self.player.RIGHT_KEY = False

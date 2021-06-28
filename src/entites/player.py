@@ -41,7 +41,6 @@ class Player(pg.sprite.Sprite):
 
 
   def __pressed(self):
-    self.acceleration = pg.Vector2(0, 0.1)
     keys = pg.key.get_pressed()
     if keys[pg.K_a]:
       self.velocity.x = -5
@@ -64,8 +63,8 @@ class Player(pg.sprite.Sprite):
 
     self.position += self.velocity
 
-    self.x = self.position.x 
-    self.y = self.position.y
+    self.rect.x = self.position.x 
+    self.rect.y = self.position.y
 
   def set_state(self):
     self.state = "idle_r"
@@ -77,7 +76,6 @@ class Player(pg.sprite.Sprite):
       self.state = "jump_r"
     elif self.velocity.y < 0:
       self.state = "jump_l"
-
 
   def draw(self, surface):
     surface.blit(self.current_image, (self.rect.x, self.rect.y))
