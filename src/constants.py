@@ -16,7 +16,7 @@ GREEN = (0, 255, 0)
 YELLOW = (255, 255, 0)
 
 # FOLDERS
-LEVELS = "LEVELS"
-SPRITES = "SPRITES"
+LEVELS = "levels"
+SPRITES = "sprites"
 
 LEVELS_INDEX = 0
