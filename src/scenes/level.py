@@ -19,7 +19,7 @@ class Level():
 
   def __load_level(self, level = 0):
     index = str(level)
-    self.curret_level_index = level
+    self.current_level_index = level
     self.current_level = self.json_maps[index]
     self.current_background = self.image_maps[index]
 
@@ -32,21 +32,24 @@ class Level():
     end = self.current_level["end"]
     self.portal = Portal(end["x"], end["y"], end["width"], end["height"])
     self.portals.add(self.portal)
-
+  def __restartlvl(self):
+    if self.player.rect.y>630:
+      self.__load_hero()
   def __complete_level(self):
      hits = pg.sprite.spritecollide(self.player, self.portals, False)
      if hits:
-       self.__load_level(self.curret_level_index + 1)
+       self.current_level_index +=1
+       self.__load_level(self.current_level_index)
        self.__load_hero()
-
   def update(self):
     self.player.rect.x += 1
     hits = pg.sprite.spritecollide(self.player, self.platforms, False)
     self.player.rect.x -= 1
     self.player.set_hits(hits)
-    
+    self.__restartlvl()
     self.__complete_level()
     self.player.update()
+    
 
     self.all_sprites.update()
     if self.player.vel.y > 0 and hits:
