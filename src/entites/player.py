@@ -17,6 +17,8 @@ class Player():
     if keys[pg.K_w]:
       self.__jump()
 
+  def __gravity(self):
+    self.set_location(self.x, self.y + self.velocity)
 
   def __run(self, type):
     if type == DirectionType.RIGHT:
@@ -29,6 +31,7 @@ class Player():
 
   def update(self, delta_time):
     self.__pressed()
+    self.__gravity()
 
   def set_location(self, x, y):
     self.x = x
