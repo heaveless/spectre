@@ -28,10 +28,8 @@ class Game:
     pygame.display.set_caption(title)
     self.window = pygame.display.set_mode((width, height))
 
-  def quit_game(self):
+  def __quit_game(self):
     self.state = GameState.QUIT
-
-  '''  sfssdfsdfsdfsd '''
 
   def __calculate_delta_time(self):
     self.clock.tick(self.target_fps)
@@ -41,12 +39,18 @@ class Game:
   def __update_control(self):
     pass
 
+  def __update_events(self):
+    for event in pygame.event.get():
+      if event.type == pygame.QUIT:
+        self.__quit_game()
+
   def __clear_screen(self, color = Color.BLACK):
     self.window.fill(color)
 
   def __update(self):
     self.__calculate_delta_time()
     self.scene_manger.update(self.delta_time)
+    self.__update_events()
 
   def __draw(self):
     self.__clear_screen()
