@@ -6,10 +6,17 @@ class Level():
   def __init__(self, resources):
     self.json_maps = resources.load_all_json_maps()
     self.image_maps = resources.load_all_image_maps()
+    self.music = resources.load_all_music()
     self.__load_level()
     self.__load_hero()
+    self.__play_music()
 
     self.layers = []
+
+  def __play_music(self):
+    pass
+    # pg.mixer.music.load(self.music["industrial"])
+    # pg.mixer.music.play(-1)
 
   def __load_level(self, level = 0):
     index = str(level)

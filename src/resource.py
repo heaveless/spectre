@@ -33,8 +33,15 @@ class Resource:
           images[name]=img
     return images
 
+  def load_all_music(self, accept=('.wav', '.mp3', '.ogg', '.ttf')):
+      songs = {}
 
-
+      directory = os.path.join(self.path, Folder.MUSIC)
+      for song in os.listdir(directory):
+          name,ext = os.path.splitext(song)
+          if ext.lower() in accept:
+              songs[name] = os.path.join(directory, song)
+      return songs
 
 
 

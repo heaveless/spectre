@@ -1,3 +1,4 @@
+import os
 import pygame as pg
 from ..common.enums.direction_type import DirectionType
 
@@ -24,7 +25,8 @@ class Player(pg.sprite.Sprite):
     self.LEFT_KEY, self.RIGHT_KEY, self.FACING_RIGHT = False, False, False
     self.is_jumping, self.on_ground = False, False
 
-    self.sprite_sheet = pg.image.load("src\\assets\\sprites\\hero.png")
+    path = os.path.join('src', 'assets', 'sprites', 'hero.png')
+    self.sprite_sheet = pg.image.load(path)
     self.load_hero_from_sheet()
     self.rect = self.right_idle_frames[0].get_rect()
 
