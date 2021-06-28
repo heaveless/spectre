@@ -1,5 +1,6 @@
 import pygame as pg
 
+
 from ..common.enums.direction_type import DirectionType
 
 class Player(pg.Rect):
