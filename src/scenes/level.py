@@ -24,7 +24,7 @@ class Level():
     pass
 
   def update(self, delta_time):
-    pass
+    self.player.update(delta_time)
 
   def draw(self, surface):
     surface.blit(self.current_background, (0, 0))
