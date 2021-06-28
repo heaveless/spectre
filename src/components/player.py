@@ -1,5 +1,5 @@
 import pygame as pg
-from ..settings import (YELLOW, WIDTH, HEIGHT, PLAYER_GRAV, PLAYER_ACC, PLAYER_FRICTION)
+from ..constants import (YELLOW, WIDTH, HEIGHT, GRAVITY, ACCELERATION, FRICTION)
 
 vec = pg.math.Vector2
 
@@ -28,16 +28,16 @@ class Player(pg.sprite.Sprite):
         self.hits = hits
 
     def update(self):
-        self.acc = vec(0, PLAYER_GRAV)
+        self.acc = vec(0, GRAVITY)
         keys = pg.key.get_pressed()
         if keys[pg.K_a]:
-            self.acc.x = -PLAYER_ACC
+            self.acc.x = -ACCELERATION
         if keys[pg.K_d]:
-            self.acc.x = PLAYER_ACC
+            self.acc.x = ACCELERATION
         if keys[pg.K_w]:
             self.jump()
 
-        self.acc.x += self.vel.x * PLAYER_FRICTION
+        self.acc.x += self.vel.x * FRICTION
         self.vel += self.acc
         self.pos += self.vel + 0.5 * self.acc
         if self.pos.x > WIDTH:
