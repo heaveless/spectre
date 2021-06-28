@@ -21,7 +21,7 @@ class Player(pg.Rect):
     else:
       self.velocity.x = 0
     if keys[pg.K_w] and self.hits:
-      self.velocity.y -= 11
+      self.velocity.y -= 13
 
   def update(self, hits):
     self.hits = hits
@@ -29,7 +29,7 @@ class Player(pg.Rect):
     self.velocity.y += self.gravity
 
     if self.hits:
-      self.velocity.y = 0
+      self.velocity.y = -self.gravity
 
     self.__pressed()
 
@@ -40,7 +40,9 @@ class Player(pg.Rect):
     if self.position.x < 0:
       self.position.x = 800
 
-    self.x = self.position.x
+    
+
+    self.x = self.position.x 
     self.y = self.position.y
 
   def draw(self, surface):
