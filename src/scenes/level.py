@@ -20,12 +20,15 @@ class Level():
   def change(self):
     self.current_index +=1
     self.__load_level(self.current_index)
+    self.__load_hero()
+  
 
   def verificador(self):
     end=self.current_level["end"]
     point=end["location"]
     if self.player.collidepoint(point["x"],point["y"]):
       self.change()
+      self.__restart_level()
 
   def __load_hero(self):
     start = self.current_level["start"]
@@ -38,7 +41,9 @@ class Level():
     return self.player.collidelistall(self.layers)
 
   def __restart_level(self):
-    pass
+    position=self.current_level["start"]
+    self.player.x=position["x"]
+    self.player.y=position["y"]
 
   def update(self, delta_time):
     hits = self.__check_collision()
