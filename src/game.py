@@ -4,6 +4,7 @@ from .resource import Resource
 from .scenes_manager import SceneManager
 from .common.enums.game_state import GameState
 from .utils.colors_util import Color
+from .entites.player import Player
 
 class Game:
   def __init__(self):
@@ -18,6 +19,8 @@ class Game:
     root_dir = os.path.dirname(os.path.abspath(__file__))
     resources = Resource(os.path.join(root_dir, "assets"))
     self.scene_manger = SceneManager(resources)
+
+    self.player = Player()
 
   def __initialize_pygame(self):
     pygame.mixer.init()
@@ -40,9 +43,25 @@ class Game:
     pass
 
   def __update_events(self):
-    for event in pygame.event.get():
+    for event in pygame.event.get():    
       if event.type == pygame.QUIT:
         self.__quit_game()
+      if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_d:
+          self.player.RIGHT_KEY, self.player.FACING_RIGHT = True, True
+        elif event.key ==pygame.K_a:
+          self.player.LEFT_KEY, self.player.FACING_RIGHT = True, False
+        elif event.key == pygame.K_w:
+                self.player.jump()
+      if event.type ==  pygame.KEYUP:
+        if event.key == pygame.K_d:
+          self.player.RIGHT_KEY = False
+        elif event.key ==pygame.K_a:
+          self.player.LEFT_KEY = False
+        elif event.key == pygame.K_w:
+          if self.player.is_jumping:
+            self.player.velocity *= .25
+            self.player.is_jumping = False
 
   def __clear_screen(self, color = Color.BLACK):
     self.window.fill(color)

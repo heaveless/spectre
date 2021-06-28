@@ -26,21 +26,21 @@ class Level():
   def verificador(self):
     end=self.current_level["end"]
     point=end["location"]
-    if self.player.collidepoint(point["x"],point["y"]):
+    if self.player.rect.collidepoint(point["x"],point["y"]):
       self.change()
 
   def __load_hero(self):
     start = self.current_level["start"]
     x = start["x"]
     y = start["y"]
-    self.player = Player(x, y, 100, 100)
+    self.player = Player()
 
 
   def __check_collision(self):
-    return self.player.collidelistall(self.layers)
+    return self.player.rect.collidelistall(self.layers)
 
   def __restart_level(self):
-    if self.player.y>610:
+    if self.player.rect.y>610:
       self.__load_hero()
 
   def update(self, delta_time):
