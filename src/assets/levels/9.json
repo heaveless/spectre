@@ -18,37 +18,37 @@
       "x": 0,
       "y": 545,
       "width":55,
-      "heigth":55
+      "height":55
     },
     {
       "x": 134,
       "y": 518,
       "width":55,
-      "heigth":55
+      "height":55
     },
     {
       "x": 256,
       "y": 490,
       "width":55,
-      "heigth":55
+      "height":55
     },
     {
       "x": 368,
       "y": 463,
       "width":55,
-      "heigth":55
+      "height":55
     },
     {
       "x": 480,
       "y": 436,
       "width":55,
-      "heigth":55
+      "height":55
     },
     {
       "x": 592,
       "y": 409,
       "width":165,
-      "heigth":55
+      "height":55
     }
   ]
 }
