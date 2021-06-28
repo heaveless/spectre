@@ -1,67 +1,48 @@
-import pygame
-import os
-from .resource import Resource
 from .scenes_manager import SceneManager
-from .common.enums.game_state import GameState
-from .utils.colors_util import Color
+from .resource import Resource
+from .constants import FPS, HEIGHT, TITLE, WIDTH, BLACK
+import pygame as pg
+import os
 
 class Game:
-  def __init__(self):
+  def __init__(self) -> None:
     self.__initialize_pygame()
-    self.__setup_window("Spectre", 800, 600, 60)
+    self.__setup_screen()
 
-    self.state = GameState.RUNNING
-    self.clock = pygame.time.Clock()
-    self.delta_time = 0
-    self.ticks = 0
+    self.clock = pg.time.Clock()
+    self.running = True
 
-    root_dir = os.path.dirname(os.path.abspath(__file__))
-    resources = Resource(os.path.join(root_dir, "assets"))
-    self.scene_manger = SceneManager(resources)
+    self.sources = self.__load_resouces()
+    self.scene_manger = SceneManager(self.sources)
 
   def __initialize_pygame(self):
-    pygame.mixer.init()
-    pygame.init()
+    pg.mixer.init()
+    pg.init()
 
-  def __setup_window(self, title, width, height, target_fps):
-    self.target_fps = target_fps
-    pygame.display.set_caption(title)
-    self.window = pygame.display.set_mode((width, height))
+  def __setup_screen(self):
+    self.screen = pg.display.set_mode((WIDTH, HEIGHT))
+    pg.display.set_caption(TITLE)
 
-  def __quit_game(self):
-    self.state = GameState.QUIT
-
-  def __calculate_delta_time(self):
-    self.clock.tick(self.target_fps)
-    self.delta_time = (pygame.time.get_ticks() - self.ticks) / 1000.0
-    self.ticks = pygame.time.get_ticks()
-
-  def __update_control(self):
-    pass
+  def __load_resouces(self):
+    root_dir = os.path.dirname(os.path.abspath(__file__))
+    return Resource(os.path.join(root_dir, "assets"))
 
   def __update_events(self):
-    for event in pygame.event.get():
-      if event.type == pygame.QUIT:
-        self.__quit_game()
-
-  def __clear_screen(self, color = Color.BLACK):
-    self.window.fill(color)
+    for event in pg.event.get():
+      if event.type == pg.QUIT:
+        self.running = False
 
   def __update(self):
-    self.__calculate_delta_time()
-    self.scene_manger.update(self.delta_time)
+    self.scene_manger.update()
     self.__update_events()
 
   def __draw(self):
-    self.__clear_screen()
-    self.scene_manger.draw(self.window)
-
-    pygame.display.update()
-
+    self.scene_manger.draw(self.screen)
+    pg.display.update()
+    # pg.display.flip()
 
   def run(self):
-    while self.state != GameState.QUIT:
+    while self.running:
+      self.clock.tick(FPS)
       self.__update()
       self.__draw()
-
-    pygame.quit()

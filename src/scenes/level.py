@@ -1,50 +1,63 @@
+from src.components.portal import Portal
 import pygame as pg
 
-from ..entites.player import Player
+from ..components.plataform import Platform
+from ..components.player import Player
 
 class Level():
-  def __init__(self, resources):
-    self.json_maps = resources.load_all_json_maps()
-    self.image_maps = resources.load_all_image_maps()
+  def __init__(self, sources):
+    self.json_maps = sources.load_all_json_maps()
+    self.image_maps = sources.load_all_image_maps()
+    
+    self.all_sprites = pg.sprite.Group()
+    self.platforms = pg.sprite.Group()
+    self.portals = pg.sprite.Group()
+
     self.__load_level()
     self.__load_hero()
-
-    self.layers = []
+    self.__load_portal()
 
   def __load_level(self, level = 0):
     index = str(level)
+    self.curret_level_index = level
     self.current_level = self.json_maps[index]
     self.current_background = self.image_maps[index]
 
   def __load_hero(self):
     start = self.current_level["start"]
-    x = start["x"]
-    y = start["y"]
-    self.player = Player(x, y, 100, 100)
+    self.player = Player(start["x"], start["y"])
+    self.all_sprites.add(self.player)
+  
+  def __load_portal(self):
+    end = self.current_level["end"]
+    self.portal = Portal(end["x"], end["y"], end["width"], end["height"])
+    self.portals.add(self.portal)
 
+  def __complete_level(self):
+     hits = pg.sprite.spritecollide(self.player, self.portals, False)
+     if hits:
+       self.__load_level(self.curret_level_index + 1)
+       self.__load_hero()
 
-  def __check_collision(self):
-    return self.player.collidelistall(self.layers)
+  def update(self):
+    self.player.rect.x += 1
+    hits = pg.sprite.spritecollide(self.player, self.platforms, False)
+    self.player.rect.x -= 1
+    self.player.set_hits(hits)
+    
+    self.__complete_level()
+    self.player.update()
 
-  def __restart_level(self):
-    pass
-
-  def update(self, delta_time):
-    hits = self.__check_collision()
-    self.player.update(len(hits) > 0)
+    self.all_sprites.update()
+    if self.player.vel.y > 0 and hits:
+      self.player.pos.y = hits[0].rect.top
+      self.player.vel.y = 0
 
   def draw(self, surface):
-    surface.blit(self.current_background, (0, 0))
-
-    self.layers = []
     for layer in self.current_level["layers"]:
-      width = layer["width"]
-      height = layer["height"]
-      x = layer["x"]
-      y = layer["y"]
+      plataform = Platform(layer["x"], layer["y"], layer["width"], layer["height"])
+      self.all_sprites.add(plataform)
+      self.platforms.add(plataform)
 
-      rect = pg.Rect(x, y, width, height)
-      pg.draw.rect(surface, (255, 255, 255), rect)
-      self.layers.append(rect)
-
-    self.player.draw(surface)
+    surface.blit(self.current_background, (0, 0))
+    self.all_sprites.draw(surface)
