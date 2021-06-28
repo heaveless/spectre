@@ -66,8 +66,10 @@ class Level():
       x = layer["x"]
       y = layer["y"]
 
-      rect = pg.Rect(x, y, width, height)
-      pg.draw.rect(surface, (255, 255, 255), rect)
+      rect = pg.Surface((width, height))
+      rect.set_colorkey((0,0,0))
+      surface.blit(rect, (x, y))
+      rect = rect.get_rect()
       self.layers.append(rect)
 
     self.player.draw(surface)
