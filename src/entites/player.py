@@ -9,6 +9,7 @@ class Player():
     self.gravity = .35
     self.velocity = pg.math.Vector2(4, 0)
 
+
   def __pressed(self):
     keys = pg.key.get_pressed()
     if keys[pg.K_d]:
@@ -16,8 +17,8 @@ class Player():
     if keys[pg.K_a]:
       self.__run(DirectionType.LEFT)
     if keys[pg.K_w]:
-      self.vertical_movement(DirectionType.UP)
-
+      self.__vertical_movement(DirectionType.UP)
+  
   def __run(self, type):
     if type == DirectionType.RIGHT:
       self.x += self.velocity.x  
@@ -25,15 +26,23 @@ class Player():
     elif type == DirectionType.LEFT:
       self.x -= self.velocity.x
       self.set_location(self.x, self.y)
-  
-  def vertical_movement(self, type):
+  def __gravity(self):
+    self.velocity.y += self.gravity
+    self.set_location(self.x, self.y + self.velocity.y)
+
+  def __vertical_movement(self, type):
     self.velocity.y += self.gravity 
     if type == DirectionType.UP:
-      self.velocity.y += 4
-      self.set_location(self.x, self.y + self.velocity.y)
+      if self.velocity.y < 8:
+        self.velocity.y += 6
+        self.set_location(self.x, self.y - self.velocity.y)
+      else:
+        self.__gravity()
+    
 
   def update(self, delta_time):
     self.__pressed()
+    # self.__gravity()
 
   def set_location(self, x, y):
     self.x = x
