@@ -4,7 +4,7 @@ class Title():
   def __init__(self, resources):
     pass
 
-  def update(self):
+  def update(self, delta_time):
     pass
     # super().update(delta_time)
 
