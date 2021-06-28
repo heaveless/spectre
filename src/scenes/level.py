@@ -14,7 +14,7 @@ class Level():
   def __restart_level(self):
     pass
 
-  def update(self, level):
+  def update(self, delta_time):
     pass
 
   def draw(self, surface):
