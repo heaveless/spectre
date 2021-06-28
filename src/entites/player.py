@@ -10,6 +10,6 @@ class Player():
 
   def draw(self, surface):
     rect = pg.Surface([100, 100])
-    rect.fill((255, 255, 255))
+    rect.fill((255, 0, 255))
 
     surface.blit(rect, (self.x, self.y))

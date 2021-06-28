@@ -9,7 +9,7 @@ class Level():
     self.__load_level()
     self.__load_hero()
 
-  def __load_level(self, level = 9):
+  def __load_level(self, level = 0):
     index = str(level)
     self.current_level = self.json_maps[index]
     self.current_background = self.image_maps[index]
@@ -38,3 +38,5 @@ class Level():
       rect = pg.Surface([width, height])
       rect.fill((255, 255, 255))
       surface.blit(rect, (x, y))
+
+    self.player.draw(surface)
