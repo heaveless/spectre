@@ -9,7 +9,7 @@ class Level():
     self.__load_level()
     self.__load_hero()
 
-  def __load_level(self, level = 0):
+  def __load_level(self, level = 6):
     index = str(level)
     self.current_level = self.json_maps[index]
     self.current_background = self.image_maps[index]
