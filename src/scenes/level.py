@@ -1,3 +1,4 @@
+from ..constants import HEIGHT
 from src.components.portal import Portal
 import pygame as pg
 
@@ -16,6 +17,11 @@ class Level():
     self.__load_level()
     self.__load_hero()
     self.__load_portal()
+
+  def __check_fail(self):
+    if self.player.rect.y >= HEIGHT:
+      self.__load_level(self.curret_level_index)
+      self.__load_hero()
 
   def __load_level(self, level = 0):
     index = str(level)
@@ -52,6 +58,8 @@ class Level():
     if self.player.vel.y > 0 and hits:
       self.player.pos.y = hits[0].rect.top
       self.player.vel.y = 0
+
+    self.__check_fail()
 
   def draw(self, surface):
     for layer in self.current_level["layers"]:
