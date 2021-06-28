@@ -1,4 +1,4 @@
-from .common.enums.control import ControlType
+from .common.enums.control_type import ControlType
 
 def pressed(type):
   if type == ControlType.UP:
