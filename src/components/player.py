@@ -4,13 +4,12 @@ from ..constants import (YELLOW, WIDTH, HEIGHT, GRAVITY, ACCELERATION, FRICTION)
 vec = pg.math.Vector2
 
 class Player(pg.sprite.Sprite):
-    def __init__(self, x, y):
+    def __init__(self, x, y, sources):
         pg.sprite.Sprite.__init__(self)
+        self.sources = sources
         self.image = pg.Surface((30, 40))
         self.image.fill(YELLOW)
         self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
         self.rect.center = (WIDTH / 2, HEIGHT / 2)
         self.pos = vec(WIDTH / 2, HEIGHT / 2)
         self.vel = vec(0, 0)

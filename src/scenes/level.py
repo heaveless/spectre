@@ -7,6 +7,7 @@ from ..components.player import Player
 
 class Level():
   def __init__(self, sources):
+    self.sources = sources
     self.json_maps = sources.load_all_json_maps()
     self.image_maps = sources.load_all_image_maps()
     
@@ -17,6 +18,10 @@ class Level():
     self.__load_level()
     self.__load_hero()
     self.__load_portal()
+
+  def __reset(self):
+    for plataform in self.platforms:
+      plataform.kill()
 
   def __check_fail(self):
     if self.player.rect.y >= HEIGHT:
@@ -31,7 +36,7 @@ class Level():
 
   def __load_hero(self):
     start = self.current_level["start"]
-    self.player = Player(start["x"], start["y"])
+    self.player = Player(start["x"], start["y"], self.sources)
     self.all_sprites.add(self.player)
   
   def __load_portal(self):
@@ -42,6 +47,7 @@ class Level():
   def __complete_level(self):
      hits = pg.sprite.spritecollide(self.player, self.portals, False)
      if hits:
+       self.__reset()
        self.__load_level(self.curret_level_index + 1)
        self.__load_hero()
 

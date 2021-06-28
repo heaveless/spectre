@@ -1,11 +1,25 @@
 import os
 import json
-from src.constants import LEVELS
+from src.constants import LEVELS, SPRITES
 import pygame as pg
 
 class Resource:
   def __init__(self, base_path):
     self.base_path = base_path
+
+  def load_unique(self, filename):
+    unique = {}
+
+    json = os.path.join(self.base_path, SPRITES, filename + '.json')
+    image = os.path.join(self.base_path, SPRITES, filename + '.png')
+    data = open(file)
+    unique["json"] = json.load(data)
+    img = pg.image.load(image)
+    if img.get_alpha():
+      img = img.convert_alpha()
+    else:
+      img = img.convert()
+      unique["image"] = img
 
   def load_all_json_maps(self, accept=('.json')):
     jsons = {}
