@@ -1,3 +1,4 @@
+from os import X_OK
 import pygame as pg
 from pygame.mixer import set_num_channels
 from ..entites.player import Player
@@ -27,9 +28,10 @@ class Level():
 
   def change(self):
     self.current_index +=1
-    self.__load_level(self.current_index)
-    self.__load_hero()
-  
+    if self.current_index < 10:
+      self.__load_level(self.current_index)
+      self.__load_hero()
+      
 
   def verificador(self):
     end=self.current_level["end"]
@@ -41,11 +43,14 @@ class Level():
     start = self.current_level["start"]
     x = start["x"]
     y = start["y"]
-    self.player = Player()
+    self.player = Player(x, y)
+    # self.player.rect.x = x
+    # print(self.player.rect.x)
+    # self.player.rect.y = y
+    # print(self.player.rect.y)
 
 
   def __check_collision(self):
-    # print(self.player.rect.collidelistall(self.layers))
     return self.player.rect.collidelistall(self.layers)
 
   def __restart_level(self):
@@ -63,7 +68,6 @@ class Level():
 
     self.layers = []
     for layer in self.current_level["layers"]:
-      # print(layer)
       width = layer["width"]
       height = layer["height"]
       x = layer["x"]
@@ -77,5 +81,4 @@ class Level():
       rect.y = y
       # print(rect.height, rect.width, rect.x, rect.y)
       self.layers.append(rect)
-    # print(self.layers)
     self.player.draw(surface)

@@ -20,7 +20,7 @@ def clip(surf,x,y,x_size,y_size, player="No"):
   return image.copy()
 
 class Player(pg.sprite.Sprite):
-  def __init__(self):
+  def __init__(self, x = 0, y = 0):
     pg.sprite.Sprite.__init__(self)
     self.LEFT_KEY, self.RIGHT_KEY, self.FACING_RIGHT = False, False, False
     self.is_jumping, self.on_ground = False, False
@@ -29,8 +29,9 @@ class Player(pg.sprite.Sprite):
     self.sprite_sheet = pg.image.load(path)
     self.load_hero_from_sheet()
     self.rect = self.right_idle_frames[0].get_rect()
-    # print(self.rect)
-
+    self.rect.x = x
+    self.rect.y = y
+    # print(self.rect.x)
     self.current_frame = 0
     
     self.position = pg.Vector2(self.rect.x, self.rect.y)
@@ -58,7 +59,10 @@ class Player(pg.sprite.Sprite):
       self.velocity.x = 0
     if keys[pg.K_w] and self.hits:
       self.velocity.y -= 13
-      self.state = "jump_r"
+      if self.velocity.x < 0:
+        self.state = "jump_l"
+      else: 
+        self.state = "jump_r"
 
   def update(self, hits, surface):
     self.hits = hits
@@ -74,25 +78,8 @@ class Player(pg.sprite.Sprite):
 
     self.rect.x = self.position.x 
     self.rect.y = self.position.y
-
-    self.draw(surface)
-    # self.set_state()
     self.animate()
-
-  def set_state(self):
-    self.state = "idle_r"
-    if self.velocity.x > 0:
-      print("right")
-      self.state = "walk_r"
-    elif self.velocity.x < 0:
-      self.state = "walk_l"
-      print("left")
-    if self.velocity.y > 0:
-      self.state = "jump_r"
-      print("jumpr")
-    elif self.velocity.y < 0:
-      print("jumpleft")
-      self.state = "jump_l"
+    self.draw(surface)
 
   def draw(self, surface):
     surface.blit(self.current_image, (self.rect.x, self.rect.y))
@@ -110,14 +97,15 @@ class Player(pg.sprite.Sprite):
           self.current_image = self.right_idle_frames[self.current_frame]
         else:
           self.current_image = self.left_idle_frames[self.current_frame]
-    else:
-      if now - self.last_update > 100:
+    elif self.state == "walk_r" or self.state == "walk_l":
+      if now - self.last_update > 200:
         self.last_update = now
         self.current_frame = (self.current_frame + 1) % len(self.right_walk_frames)
         if self.state == "walk_r":
           self.current_image = self.right_walk_frames[self.current_frame]
         elif self.state == "walk_l":
           self.current_image = self.left_walk_frames[self.current_frame]
+    else:
       if now - self.last_update > 50:
         self.current_frame = (self.current_frame + 1) % len(self.right_jump_frames)
         if self.state == "jump_r":

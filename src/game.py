@@ -46,20 +46,6 @@ class Game:
     for event in pygame.event.get():    
       if event.type == pygame.QUIT:
         self.__quit_game()
-      if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_d:
-          self.player.RIGHT_KEY, self.player.FACING_RIGHT = True, True
-        elif event.key ==pygame.K_a:
-          self.player.LEFT_KEY, self.player.FACING_RIGHT = True, False
-      if event.type ==  pygame.KEYUP:
-        if event.key == pygame.K_d:
-          self.player.RIGHT_KEY = False
-        elif event.key ==pygame.K_a:
-          self.player.LEFT_KEY = False
-        elif event.key == pygame.K_w:
-          if self.player.is_jumping:
-            self.player.velocity *= .25
-            self.player.is_jumping = False
 
   def __clear_screen(self, color = Color.BLACK):
     self.window.fill(color)
