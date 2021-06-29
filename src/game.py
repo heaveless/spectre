@@ -18,7 +18,7 @@ class Game:
 
     root_dir = os.path.dirname(os.path.abspath(__file__))
     resources = Resource(os.path.join(root_dir, "assets"))
-    self.scene_manger = SceneManager(resources)
+    self.scene_manger = SceneManager(resources, self.window)
 
     self.player = Player()
 

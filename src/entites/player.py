@@ -29,6 +29,7 @@ class Player(pg.sprite.Sprite):
     self.sprite_sheet = pg.image.load(path)
     self.load_hero_from_sheet()
     self.rect = self.right_idle_frames[0].get_rect()
+    # print(self.rect)
 
     self.current_frame = 0
     
@@ -51,7 +52,7 @@ class Player(pg.sprite.Sprite):
     if keys[pg.K_w] and self.hits:
       self.velocity.y -= 13
 
-  def update(self, hits):
+  def update(self, hits, surface):
     self.hits = hits
 
     self.velocity.y += self.gravity
@@ -79,6 +80,7 @@ class Player(pg.sprite.Sprite):
 
   def draw(self, surface):
     surface.blit(self.current_image, (self.rect.x, self.rect.y))
+    # print(self.rect.x, self.rect.y)
     # pg.draw.rect(surface, (255, 0, 255), self)
 
   def animate(self):

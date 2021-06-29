@@ -3,10 +3,11 @@ from pygame.mixer import set_num_channels
 from ..entites.player import Player
 
 class Level():
-  def __init__(self, resources):
+  def __init__(self, resources, surface):
     self.json_maps = resources.load_all_json_maps()
     self.image_maps = resources.load_all_image_maps()
     self.music = resources.load_all_music()
+    self.surface = surface
     self.__load_level()
     self.__load_hero()
     self.__play_music()
@@ -44,15 +45,16 @@ class Level():
 
 
   def __check_collision(self):
+    # print(self.player.rect.collidelistall(self.layers))
     return self.player.rect.collidelistall(self.layers)
 
   def __restart_level(self):
     if self.player.rect.y>610:
       self.__load_hero()
 
-  def update(self, delta_time):
+  def update(self, delta_time, surface):
     hits = self.__check_collision()
-    self.player.update(len(hits) > 0)
+    self.player.update(len(hits) > 0, surface)
     self.verificador()
     self.__restart_level()
 
@@ -61,6 +63,7 @@ class Level():
 
     self.layers = []
     for layer in self.current_level["layers"]:
+      # print(layer)
       width = layer["width"]
       height = layer["height"]
       x = layer["x"]
@@ -68,8 +71,11 @@ class Level():
 
       rect = pg.Surface((width, height))
       rect.set_colorkey((0,0,0))
-      surface.blit(rect, (x, y))
+      # surface.blit(rect, (x, y))
       rect = rect.get_rect()
+      rect.x = x
+      rect.y = y
+      # print(rect.height, rect.width, rect.x, rect.y)
       self.layers.append(rect)
-
+    # print(self.layers)
     self.player.draw(surface)

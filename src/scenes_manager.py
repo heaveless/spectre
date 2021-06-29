@@ -5,8 +5,9 @@ from .scenes.title import Title
 from .common.enums.scene_type import SceneType
 
 class SceneManager:
-  def __init__(self, resources):
+  def __init__(self, resources, surface):
     self.resources = resources
+    self.surface = surface
     self.__reset()
 
   def __reset(self):
@@ -23,7 +24,7 @@ class SceneManager:
 
   def __initialize_scenes(self):
     self.__add_scene(Title(self.resources))
-    self.__add_scene(Level(self.resources))
+    self.__add_scene(Level(self.resources, self.surface))
     self.__add_scene(Boss(self.resources))
     self.__add_scene(GameOver(self.resources))
 
@@ -31,7 +32,7 @@ class SceneManager:
     self.__current_scene = self.__all_scenes[int(scene_type)]
 
   def update(self, delta_time):
-    self.__current_scene.update(delta_time)
+    self.__current_scene.update(delta_time, self.surface)
 
   def draw(self, surface):
     self.__current_scene.draw(surface)
