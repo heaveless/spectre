@@ -40,17 +40,25 @@ class Player(pg.sprite.Sprite):
     self.state = "idle_r"
     self.current_image = self.right_idle_frames[0]
 
+    self.last_update = pg.time.get_ticks()
+
 
   def __pressed(self):
     keys = pg.key.get_pressed()
+    self.state = "idle_r"
     if keys[pg.K_a]:
       self.velocity.x = -5
+      self.state = "walk_l"
+      self.FACING_RIGHT = False
     elif keys[pg.K_d]:
       self.velocity.x = 5
+      self.state = "walk_r"
+      self.FACING_RIGHT = True
     else:
       self.velocity.x = 0
     if keys[pg.K_w] and self.hits:
       self.velocity.y -= 13
+      self.state = "jump_r"
 
   def update(self, hits, surface):
     self.hits = hits
@@ -67,15 +75,23 @@ class Player(pg.sprite.Sprite):
     self.rect.x = self.position.x 
     self.rect.y = self.position.y
 
+    self.draw(surface)
+    # self.set_state()
+    self.animate()
+
   def set_state(self):
     self.state = "idle_r"
     if self.velocity.x > 0:
+      print("right")
       self.state = "walk_r"
     elif self.velocity.x < 0:
       self.state = "walk_l"
+      print("left")
     if self.velocity.y > 0:
       self.state = "jump_r"
+      print("jumpr")
     elif self.velocity.y < 0:
+      print("jumpleft")
       self.state = "jump_l"
 
   def draw(self, surface):
@@ -86,6 +102,7 @@ class Player(pg.sprite.Sprite):
   def animate(self):
     now = pg.time.get_ticks() 
     if self.state == "idle_r":
+      # print(now - self.last_update)
       if now - self.last_update > 200:
         self.last_update = now
         self.current_frame = (self.current_frame + 1) % len(self.right_idle_frames)
