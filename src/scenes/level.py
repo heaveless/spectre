@@ -12,7 +12,7 @@ class Level(SceneBase):
     self.__load_hero()
     self.__play_music()
 
-    self.max_levels = 1
+    self.max_levels = 9
     self.is_complete = False
 
     self.layers = []
