@@ -25,7 +25,7 @@ class GameOver(SceneBase):
       "That's our own.",
       ""
     ]
-    self.keys = ('0', '3', '7', '10', '14', '18', '21', '26', '29')
+    self.keys = ('0', '3', '7', '10', '14', '18', '21', '26', '30')
     for key in self.keys:
       index = self.keys.index(key)
       self.message[key] = words[index]
@@ -46,7 +46,11 @@ class GameOver(SceneBase):
     pg.mixer.music.play()
 
   def update(self, delta_time, time):
-    total_seconds = (time[0] + 1) * (time[1])
+    aditional_time = 0
+    if time[0] > 0:
+      aditional_time = 60 * time[0]
+      
+    total_seconds = aditional_time + time[1]
     if self.current_global_second < total_seconds:
       self.current_global_second = time[1]
       self.current_second += 1
