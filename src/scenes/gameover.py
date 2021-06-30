@@ -46,13 +46,9 @@ class GameOver(SceneBase):
     pg.mixer.music.play()
 
   def update(self, delta_time, time):
-    aditional_time = 0
-    if time[0] > 0:
-      aditional_time = 60 * time[0]
-      
-    total_seconds = aditional_time + time[1]
-    if self.current_global_second < total_seconds:
-      self.current_global_second = time[1]
+    seconds = int(time / 1000)
+    if self.current_global_second < seconds:
+      self.current_global_second = seconds
       self.current_second += 1
 
   def draw(self, surface):

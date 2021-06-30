@@ -20,7 +20,7 @@ class Title(SceneBase):
       cb(SceneType.LEVEL)
 
   def update(self, delta_time, time):
-    seconds = time[1]
+    seconds = int(time / 1000)
     if seconds > self.stay_time:
       self.is_complete = True
 

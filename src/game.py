@@ -43,11 +43,7 @@ class Game:
     self.ticks = pg.time.get_ticks()
 
   def __calculate_time(self):
-    milliseconds = pg.time.get_ticks() - self.last_time
-    self.last_time = milliseconds / 1000
-    minute = int(self.last_time / 60)
-    seconds = int(self.last_time % 60)
-    self.current_time = minute, seconds
+    self.current_time = pg.time.get_ticks() - self.last_time
 
   def __update_control(self):
     pass
