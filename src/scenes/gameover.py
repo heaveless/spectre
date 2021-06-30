@@ -7,6 +7,8 @@ class GameOver(SceneBase):
     SceneBase.__init__(self)
     self.music = resources.load_all_music()
     self.current_second = -1
+    self.current_global_second = 0
+    self.__set_text("")
     self.__initialize()
     self.__play_music()
 
@@ -32,8 +34,11 @@ class GameOver(SceneBase):
   def __set_subtitle(self, string_index):
     if string_index in self.keys:
       word = self.message[string_index]
-      font = pg.font.Font(None, 25)
-      self.text = font.render(word, True, Color.WHITE)
+      self.__set_text(word)
+
+  def __set_text(self, text):
+    font = pg.font.Font(None, 25)
+    self.text = font.render(text, True, Color.WHITE)
 
   def __play_music(self):
     pg.mixer.music.load(self.music["thank-you"])
@@ -41,8 +46,11 @@ class GameOver(SceneBase):
     pg.mixer.music.play()
 
   def update(self, delta_time, time):
-    if self.current_second < time[1]:
-      self.current_second = time[1]
+    if self.current_global_second - time[1] > self.current_second:
+      self.current_second = self.current_global_second - time[1]
+
+    if self.current_global_second < time[1]:
+      self.current_global_second = time[1]
 
   def draw(self, surface):
     self.__set_subtitle(str(self.current_second))
