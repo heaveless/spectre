@@ -3,18 +3,17 @@ from ..entites.player import Player
 from ..common.base.scene_base import SceneBase
 from ..common.enums.scene_type import SceneType
 class Level(SceneBase):
-  def __init__(self, resources, surface):
+  def __init__(self, resources):
     SceneBase.__init__(self)
     self.json_maps = resources.load_all_json_maps()
     self.image_maps = resources.load_all_image_maps()
     self.music = resources.load_all_music()
-    self.surface = surface
     self.__load_level()
     self.__load_hero()
     self.__play_music()
 
-    self.max_levels = 9
-    self.game_over = False
+    self.max_levels = 1
+    self.is_complete = False
 
     self.layers = []
 
@@ -37,7 +36,7 @@ class Level(SceneBase):
       self.__load_level(self.current_index)
       self.__load_hero()
     else:
-      self.game_over = True
+      self.is_complete = True
 
   def __check_end_level(self):
     end=self.current_level["end"]
@@ -59,11 +58,11 @@ class Level(SceneBase):
       self.__load_hero()
 
   def complete(self, cb):
-    if self.game_over:
+    if self.is_complete:
       self.__stop_music()
       cb(SceneType.GAMEOVER)
 
-  def update(self):
+  def update(self, delta_time, time):
     hits = self.__check_collision()
     self.player.update(len(hits) > 0)
     self.__check_end_level()

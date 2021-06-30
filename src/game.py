@@ -1,4 +1,4 @@
-import pygame
+import pygame as pg
 import os
 from .resource import Resource
 from .scenes_manager import SceneManager
@@ -13,7 +13,9 @@ class Game:
     self.__setup_window("Spectre", SCREEN_WIDTH, SCREEN_HEIGHT, 60)
 
     self.state = GameState.RUNNING
-    self.clock = pygame.time.Clock()
+    self.clock = pg.time.Clock()
+    self.current_time = 0, 0
+    self.last_time = 0
     self.delta_time = 0
     self.ticks = 0
 
@@ -24,28 +26,35 @@ class Game:
     self.player = Player()
 
   def __initialize_pygame(self):
-    pygame.mixer.init()
-    pygame.init()
+    pg.mixer.init()
+    pg.init()
 
   def __setup_window(self, title, width, height, target_fps):
     self.target_fps = target_fps
-    pygame.display.set_caption(title)
-    self.window = pygame.display.set_mode((width, height))
+    pg.display.set_caption(title)
+    self.window = pg.display.set_mode((width, height))
 
   def __quit_game(self):
     self.state = GameState.QUIT
 
   def __calculate_delta_time(self):
     self.clock.tick(self.target_fps)
-    self.delta_time = (pygame.time.get_ticks() - self.ticks) / 1000.0
-    self.ticks = pygame.time.get_ticks()
+    self.delta_time = (pg.time.get_ticks() - self.ticks) / 1000.0
+    self.ticks = pg.time.get_ticks()
+
+  def __calculate_time(self):
+    milliseconds = pg.time.get_ticks() - self.last_time
+    self.last_time = milliseconds / 1000
+    minute = int(self.last_time / 60)
+    seconds = int(self.last_time % 60)
+    self.current_time = minute, seconds
 
   def __update_control(self):
     pass
 
   def __update_events(self):
-    for event in pygame.event.get():    
-      if event.type == pygame.QUIT:
+    for event in pg.event.get():    
+      if event.type == pg.QUIT:
         self.__quit_game()
 
   def __clear_screen(self, color = Color.BLACK):
@@ -53,14 +62,15 @@ class Game:
 
   def __update(self):
     self.__calculate_delta_time()
-    self.scene_manger.update(self.delta_time)
+    self.__calculate_time()
+    self.scene_manger.update(self.delta_time, self.current_time)
     self.__update_events()
 
   def __draw(self):
     self.__clear_screen()
     self.scene_manger.draw(self.window)
 
-    pygame.display.update()
+    pg.display.update()
 
 
   def run(self):
@@ -68,4 +78,4 @@ class Game:
       self.__update()
       self.__draw()
 
-    pygame.quit()
+    pg.quit()
