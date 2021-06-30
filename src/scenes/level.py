@@ -16,9 +16,8 @@ class Level(SceneBase):
     self.layers = []
 
   def __play_music(self):
-    pass
-    # pg.mixer.music.load(self.music["industrial"])
-    # pg.mixer.music.play(-1)
+    pg.mixer.music.load(self.music["industrial"])
+    pg.mixer.music.play(-1)
 
   def __load_level(self, level = 0):
     index = str(level)
