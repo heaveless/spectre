@@ -1,6 +1,5 @@
-class GameOver():
-  def __init__(self, resources):
-      pass
+from ..common.base.scene_base import SceneBase
 
-  def update(self, delta_time):
-    pass
+class GameOver(SceneBase):
+  def __init__(self, resources):
+    SceneBase.__init__(self)

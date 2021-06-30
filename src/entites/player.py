@@ -27,11 +27,10 @@ class Player(pg.sprite.Sprite):
 
     path = os.path.join('src', 'assets', 'sprites', 'hero.png')
     self.sprite_sheet = pg.image.load(path)
-    self.load_hero_from_sheet()
+    self.__load_hero_from_sheet()
     self.rect = self.right_idle_frames[0].get_rect()
     self.rect.x = x
     self.rect.y = y
-    # print(self.rect.x)
     self.current_frame = 0
     
     self.position = pg.Vector2(self.rect.x, self.rect.y)
@@ -64,7 +63,7 @@ class Player(pg.sprite.Sprite):
       else: 
         self.state = "jump_r"
 
-  def update(self, hits, surface):
+  def update(self, hits):
     self.hits = hits
 
     self.velocity.y += self.gravity
@@ -78,18 +77,14 @@ class Player(pg.sprite.Sprite):
 
     self.rect.x = self.position.x 
     self.rect.y = self.position.y
-    self.animate()
-    self.draw(surface)
+    self.__animate()
 
   def draw(self, surface):
     surface.blit(self.current_image, (self.rect.x, self.rect.y))
-    # print(self.rect.x, self.rect.y)
-    # pg.draw.rect(surface, (255, 0, 255), self)
 
-  def animate(self):
+  def __animate(self):
     now = pg.time.get_ticks() 
     if self.state == "idle_r":
-      # print(now - self.last_update)
       if now - self.last_update > 200:
         self.last_update = now
         self.current_frame = (self.current_frame + 1) % len(self.right_idle_frames)
@@ -114,7 +109,7 @@ class Player(pg.sprite.Sprite):
           self.current_image = self.left_jump_frames[self.current_frame]
 
 
-  def load_hero_from_sheet(self, option="no"):
+  def __load_hero_from_sheet(self, option="no"):
         self.option = option
         # self.right_frames = []
         # self.left_frames = []

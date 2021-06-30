@@ -1,6 +1,4 @@
-class Boss():
+from ..common.base.scene_base import SceneBase
+class Boss(SceneBase):
   def __init__(self, resources):
-      pass
-
-  def update(self, delta_time):
-    pass
+    SceneBase.__init__(self)

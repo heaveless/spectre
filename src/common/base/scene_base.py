@@ -2,7 +2,8 @@ class SceneBase:
   def __init__(self):
       pass
 
-  # def draw(self, surface):
-  #   surface
+  def update(self):
+    pass
 
-  # def set_
+  def draw(self, surface):
+    pass

@@ -32,7 +32,7 @@ class SceneManager:
     self.__current_scene = self.__all_scenes[int(scene_type)]
 
   def update(self, delta_time):
-    self.__current_scene.update(delta_time, self.surface)
+    self.__current_scene.update()
 
   def draw(self, surface):
     self.__current_scene.draw(surface)
