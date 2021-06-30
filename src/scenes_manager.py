@@ -1,3 +1,4 @@
+import copy
 from .scenes.boss import Boss
 from .scenes.gameover import GameOver
 from .scenes.level import Level
@@ -14,7 +15,6 @@ class SceneManager:
     self.__all_scenes = []
     self.__current_scene = None
     self.__previous_scene = None
-    self.__next_scene = None
 
     self.__initialize_scenes()
     self.__set_starting_scene(SceneType.LEVEL)
@@ -31,8 +31,14 @@ class SceneManager:
   def __set_starting_scene(self, scene_type):
     self.__current_scene = self.__all_scenes[int(scene_type)]
 
+  def __update_scene(self, scene_type):
+    if scene_type:
+      # self.__previous_scene = copy.deepcopy(self.__current_scene)
+      self.__current_scene = self.__all_scenes[int(scene_type)]
+
   def update(self, delta_time):
     self.__current_scene.update()
+    self.__current_scene.complete(self.__update_scene)
 
   def draw(self, surface):
     self.__current_scene.draw(surface)

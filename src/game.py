@@ -5,11 +5,12 @@ from .scenes_manager import SceneManager
 from .common.enums.game_state import GameState
 from .utils.colors_util import Color
 from .entites.player import Player
+from .config.game import SCREEN_WIDTH, SCREEN_HEIGHT
 
 class Game:
   def __init__(self):
     self.__initialize_pygame()
-    self.__setup_window("Spectre", 800, 600, 60)
+    self.__setup_window("Spectre", SCREEN_WIDTH, SCREEN_HEIGHT, 60)
 
     self.state = GameState.RUNNING
     self.clock = pygame.time.Clock()
